@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export TENCENTCLOUD_SECRET_ID="XXXXXXXX"
+export TENCENTCLOUD_SECRET_KEY="XXXXXXXX"
+
+python main.py
