@@ -7,16 +7,20 @@ This document introduces the features and usage of **Face Transform**. It captur
 Currently supported features:
 
 1. **Face Aging**: Generate effects for different age stages and compose them into a video for playback.
+
 2. **Portrait Anime**: Generate an anime-style portrait image.
+
 3. **Gender Swap**: Generate a single gender-converted result using full-image processing.
+
+<img src="./docs/assets/face1.png" style="zoom: 100%;"  />
 
 ## Project Structure
 
 ```
 demo-face-transform/
 ├── docs
-│   ├── assets          # Static assets
-│   └── Face.mp4        # Sample video for playback
+│   └── assets          # Static assets
+│   
 └── src/
     ├── main.py         # Program entry
     ├── ui_app.py       # UI, interaction, and log display
@@ -81,6 +85,8 @@ pip install -r requirements.txt
 ## Set Tencent Cloud credentials
 
 > Enable the relevant Tencent Cloud Face Transform services (Face Gender Swap, Face Aging, Portrait Anime, Face Morphing). Record your **SECRET_ID** and **SECRET_KEY**.
+>
+> [Tencent Cloud Reference API Documentation](https://cloud.tencent.com/document/product/1202/41968)
 
 ```bash
 export TENCENTCLOUD_SECRET_ID='...'

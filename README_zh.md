@@ -12,13 +12,15 @@
 
 3. **人脸性别转换**：整图方式生成单张性别转换结果
 
+<img src="./docs/assets/face1.png" style="zoom: 100%;"  />
+
 ##  项目结构
 
 ```
 demo-face-transform/
 ├── docs                
-│   ├── assets          # 静态资源文件
-│   └── Face.mp4        # 示例播放视频
+│   └── assets          # 静态资源文件
+│   
 └── src/
     ├── main.py         # 程序入口
     ├── ui_app.py       # 界面与交互、日志显示
@@ -85,6 +87,8 @@ pip install -r requirements.txt
 ## 设置腾讯云密钥
 
 > 腾讯云开通人脸变换相关服务(人脸性别转换，人脸年龄变化，人像动漫化，人像渐变)，记录好自己的**SECRET_ID**和**SECRET_KEY**
+>
+> [腾讯云参考API文档](https://cloud.tencent.com/document/product/1202/41968)
 
 ```bash
 export TENCENTCLOUD_SECRET_ID='...'

@@ -10,12 +10,12 @@ def _translate_job_status(s: str) -> str:
     if not s:
         return s
     m = {
-        "\u6392\u961f\u4e2d": "Queued",          # 排队中
-        "\u5904\u7406\u4e2d": "Processing",     # 处理中
-        "\u5904\u7406\u5b8c\u6210": "Completed",  # 处理完成
-        "\u6210\u529f": "Succeeded",            # 成功
-        "\u5931\u8d25": "Failed",               # 失败
-        "\u5df2\u53d6\u6d88": "Cancelled",      # 已取消
+        "\u6392\u961f\u4e2d": "Queued",           
+        "\u5904\u7406\u4e2d": "Processing",       
+        "\u5904\u7406\u5b8c\u6210": "Completed",  
+        "\u6210\u529f": "Succeeded",              
+        "\u5931\u8d25": "Failed",                 
+        "\u5df2\u53d6\u6d88": "Cancelled",        
     }
     return m.get(s, s)
 
@@ -69,7 +69,7 @@ def compose_roi_back(snap_bgr: np.ndarray, out_roi_bgr: np.ndarray, roi_xywh: Tu
     if out_roi_bgr.shape[:2] != (h, w):
         out_roi_bgr = cv2.resize(out_roi_bgr, (w, h), interpolation=cv2.INTER_LINEAR)
 
-    # 关键：颜色/亮度匹配，降低贴图感
+    
     if bool(DEFAULTS.get("color_match_lab", True)):
         try:
             orig_roi = snap_bgr[y:y+h, x:x+w]
@@ -114,7 +114,7 @@ def run_gender_pair(ft, snap_bgr: np.ndarray, out_dir: str) -> Tuple[np.ndarray,
     jpeg_quality = int(DEFAULTS.get("jpeg_quality", 95))
     do_global_match = bool(DEFAULTS.get("gender_global_color_match", True))
 
-    # 输入整图（控制尺寸/质量）
+    # Input the entire image
     in_bgr = resize_max_side(snap_bgr, api_max_side)
     in_b64 = cv2_to_jpg_b64(in_bgr, jpeg_quality=jpeg_quality)
 
@@ -124,11 +124,10 @@ def run_gender_pair(ft, snap_bgr: np.ndarray, out_dir: str) -> Tuple[np.ndarray,
     out_f = b64_to_bgr_image(out_b64_f)
     out_m = b64_to_bgr_image(out_b64_m)
 
-    # 拉回原始分辨率
+    # Restore to the original resolution
     out_f = cv2.resize(out_f, (snap_bgr.shape[1], snap_bgr.shape[0]), interpolation=cv2.INTER_LINEAR)
     out_m = cv2.resize(out_m, (snap_bgr.shape[1], snap_bgr.shape[0]), interpolation=cv2.INTER_LINEAR)
 
-    # 可选：整图颜色/亮度匹配到原图（减少“风格漂移/色偏”）
     if do_global_match:
         try:
             out_f = match_color_lab(out_f, snap_bgr)
@@ -193,10 +192,9 @@ def run_age_morph(ft, common, snap_bgr: np.ndarray, out_dir: str, log_cb: Callab
         log_cb(f"ChangeAgePic -> age={age}")
         out_roi = call_api_on_roi(ft, roi_pack.roi_bgr, change_age_pic_base64, int(age))
         full = compose_roi_back(snap_bgr, out_roi, roi_pack.roi_xywh)
-        # 预览：每张年龄图会一直显示到下一张生成（最后一张保持到视频开始播放）
+        # Final translation: Each age chart will remain displayed until the next one is generated (the last one will remain until the video starts playing).
         if preview_cb is not None:
             try:
-                # 用很长的持续时间，让预览保持到下一次 override 或视频播放开始
                 preview_cb(full, float(DEFAULTS.get("age_preview_hold_seconds", 3600.0)))
             except Exception:
                 pass
@@ -238,7 +236,6 @@ def run_age_morph(ft, common, snap_bgr: np.ndarray, out_dir: str, log_cb: Callab
             )
             log_cb(f"Saved: {out_mp4}")
             # ---- memory cleanup ----
-            # 年龄渐变会产生多张中间图/bytes/base64；显式清理引用，帮助 Python 更快回收内存
             try:
                 for _name in ("imgs_full_b64",):
                     if _name in locals() and locals()[_name] is not None:
