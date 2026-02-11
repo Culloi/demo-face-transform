@@ -1,0 +1,11 @@
+certifi==2026.1.4
+charset-normalizer==3.4.4
+idna==3.11
+numpy==2.4.2
+opencv-python-headless==4.13.0.92
+PyQt6==6.10.2
+PyQt6-Qt6==6.10.2
+PyQt6_sip==13.11.0
+requests==2.32.5
+tencentcloud-sdk-python==3.1.44
+urllib3==2.6.3
