@@ -9,9 +9,9 @@ from collections import deque
 import cv2
 import numpy as np
 
-from PyQt6.QtCore import Qt, QTimer, QSize, QThreadPool, QRunnable, QObject, pyqtSignal
-from PyQt6.QtGui import QImage, QPixmap, QGuiApplication
-from PyQt6.QtWidgets import (
+from PySide6.QtCore import Qt, QTimer, QSize, QThreadPool, QRunnable, QObject, Signal
+from PySide6.QtGui import QImage, QPixmap, QGuiApplication
+from PySide6.QtWidgets import (
     QWidget, QLabel, QPushButton, QTextEdit,
     QHBoxLayout, QVBoxLayout, QGroupBox, QMessageBox, 
     QFileDialog, QProgressBar, QScrollArea, QFrame
@@ -120,10 +120,10 @@ def _badge(text: str, bg: str) -> QLabel:
 
 
 class UiBus(QObject):
-    log = pyqtSignal(str)
-    busy = pyqtSignal(bool)
-    override = pyqtSignal(object, float)  # (bgr ndarray, seconds)
-    play_video = pyqtSignal(str)          # local mp4 path
+    log = Signal(str)
+    busy = Signal(bool)
+    override = Signal(object, float)  # (bgr ndarray, seconds)
+    play_video = Signal(str)          # local mp4 path
 
 
 class EffectTask(QRunnable):
@@ -215,7 +215,7 @@ class MainWindow(QWidget):
 
         # --------- Preview ----------
         self.preview = QLabel("Initializing camera...")
-        self.preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.preview.setAlignment(Qt.AlignCenter)
         self.preview.setMinimumSize(QSize(780, 560))
         self.preview.setStyleSheet(
             "background:#050712; border:1px solid #2b2f45; border-radius:12px; color:#cfd3ff; font-size:16px;"
@@ -319,7 +319,7 @@ class MainWindow(QWidget):
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setWidget(right_content)
         scroll.setStyleSheet("QScrollArea{border:none; background:transparent;}")
 
@@ -446,7 +446,7 @@ class MainWindow(QWidget):
     def _pixmap_from_bgr(self, bgr: np.ndarray) -> QPixmap:
         rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
         h, w = rgb.shape[:2]
-        qimg = QImage(rgb.data, w, h, int(rgb.strides[0]), QImage.Format.Format_RGB888).copy()
+        qimg = QImage(rgb.data, w, h, int(rgb.strides[0]), QImage.Format_RGB888).copy()
         return QPixmap.fromImage(qimg)
 
     def _update_fps_badge(self) -> None:
@@ -482,7 +482,7 @@ class MainWindow(QWidget):
 
         pix = self._pixmap_from_bgr(bgr)
         target = self.preview.size()
-        pix = pix.scaled(target, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        pix = pix.scaled(target, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.preview.setPixmap(pix)
 
         self._update_fps_badge()
