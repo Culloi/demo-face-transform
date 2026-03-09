@@ -172,7 +172,7 @@ class MainWindow(QWidget):
         # FPS estimate for camera preview
         self._tick_times = deque(maxlen=30)
 
-        self.setWindowTitle("Ai Face Swap")
+        self.setWindowTitle("Face Transform")
 
         # ✅ 用可用屏幕区域（扣掉顶部栏/任务栏）
         screen = QGuiApplication.primaryScreen()
