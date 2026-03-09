@@ -188,7 +188,7 @@ class MainWindow(QWidget):
         self.setMinimumSize(QSize(920, 650))
 
         # --------- Header ----------
-        self.title_label = QLabel("Ai Face Swap")
+        self.title_label = QLabel("Face Transform")
         self.title_label.setStyleSheet("font-size:18px; font-weight:800; color:#ffffff;")
 
         self.btn_fullscreen = QPushButton("Full Screen")
