@@ -53,10 +53,11 @@ demo-face-transform/
   - idna==3.11
   - numpy==2.4.2
   - opencv-python-headless==4.13.0.92
-  - PyQt6==6.10.2
-  - PyQt6-Qt6==6.10.2
-  - PyQt6_sip==13.11.0
+  - PySide6==6.10.2
+  - PySide6_Addons==6.10.2
+  - PySide6_Essentials==6.10.2
   - requests==2.32.5
+  - shiboken6==6.10.2
   - tencentcloud-sdk-python==3.1.44
   - urllib3==2.6.3
 
